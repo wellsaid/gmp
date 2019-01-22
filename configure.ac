@@ -77,7 +77,7 @@ dnl
 dnl  Note that there's a copy of these options in the top-level Makefile.am,
 dnl  so update there too if changing anything.
 dnl
-AM_INIT_AUTOMAKE([1.8 gnu no-dependencies])
+AM_INIT_AUTOMAKE([1.8 gnu no-dependencies subdir-objects])
 AC_CONFIG_HEADERS(config.h:config.in)
 AM_MAINTAINER_MODE
 
