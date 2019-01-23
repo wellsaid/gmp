@@ -31,8 +31,8 @@
 
 AM_CPPFLAGS = -D__GMP_WITHIN_GMP -I$(top_srcdir)
 
-noinst_LTLIBRARIES = libmpf.la
-libmpf_la_SOURCES = \
+noinst_LIBRARIES = libmpf.a
+libmpf_a_SOURCES = \
   init.c init2.c inits.c set.c set_ui.c set_si.c set_str.c set_d.c set_z.c \
   set_q.c iset.c iset_ui.c iset_si.c iset_str.c iset_d.c clear.c clears.c \
   get_str.c dump.c size.c eq.c reldiff.c sqrt.c random2.c inp_str.c out_str.c \

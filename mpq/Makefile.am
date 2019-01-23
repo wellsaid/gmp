@@ -31,8 +31,8 @@
 
 AM_CPPFLAGS = -D__GMP_WITHIN_GMP -I$(top_srcdir)
 
-noinst_LTLIBRARIES = libmpq.la
-libmpq_la_SOURCES =							\
+noinst_LIBRARIES = libmpq.a
+libmpq_a_SOURCES =							\
   abs.c aors.c canonicalize.c clear.c clears.c				\
   cmp.c cmp_si.c cmp_ui.c div.c equal.c					\
   get_d.c get_den.c get_num.c get_str.c					\

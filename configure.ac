@@ -571,7 +571,7 @@ case $host in
         # tune/alpha.asm assumes int==4bytes but unicos uses int==8bytes
         ;;
       *)
-        SPEED_CYCLECOUNTER_OBJ=alpha.lo
+        SPEED_CYCLECOUNTER_OBJ=alpha.o
         cyclecounter_size=1 ;;
     esac
     ;;
@@ -598,7 +598,7 @@ case $host in
     gcc_64_cflags_optlist="arch tune"
     gcc_testlist="gcc-arm-umodsi"
     gcc_64_testlist=""
-    CALLING_CONVENTIONS_OBJS='arm32call.lo arm32check.lo'
+    CALLING_CONVENTIONS_OBJS='arm32call.o arm32check.o'
     CALLING_CONVENTIONS_OBJS_64=""
     cclist_64="gcc cc"
     any_32_testlist="sizeof-long-4"
@@ -775,7 +775,7 @@ case $host in
     #
     gcc_cflags_optlist="arch"
     gcc_testlist="sizeof-long-4"
-    SPEED_CYCLECOUNTER_OBJ=hppa.lo
+    SPEED_CYCLECOUNTER_OBJ=hppa.o
     cyclecounter_size=1
 
     # FIXME: For hppa2.0*, path should be "pa32/hppa2_0 pa32/hppa1_1 pa32".
@@ -819,7 +819,7 @@ case $host in
         path_20n="pa64"
 	limb_20n=longlong
         any_20n_testlist="sizeof-long-4"
-        SPEED_CYCLECOUNTER_OBJ_20n=hppa2.lo
+        SPEED_CYCLECOUNTER_OBJ_20n=hppa2.o
         cyclecounter_size_20n=2
 
         # -mpa-risc-2-0 is only an optional flag, in case an old gcc is
@@ -853,7 +853,7 @@ case $host in
           cc_20w_testlist="hpc-hppa-2-0"
           path_20w="pa64"
 	  any_20w_testlist="sizeof-long-8"
-          SPEED_CYCLECOUNTER_OBJ_20w=hppa2w.lo
+          SPEED_CYCLECOUNTER_OBJ_20w=hppa2w.o
           cyclecounter_size_20w=2
 	  ;;
         esac
@@ -865,7 +865,7 @@ case $host in
   IA64_PATTERN)
     abilist="64"
     GMP_INCLUDE_MPN(ia64/ia64-defs.m4)
-    SPEED_CYCLECOUNTER_OBJ=ia64.lo
+    SPEED_CYCLECOUNTER_OBJ=ia64.o
     any_32_testlist="sizeof-long-4"
 
     case $host_cpu in
@@ -910,7 +910,7 @@ case $host in
         cc_32_cflags_opt="+O2 +O1"
         gcc_32_cflags="$gcc_cflags -milp32"
         limb_32=longlong
-        SPEED_CYCLECOUNTER_OBJ_32=ia64.lo
+        SPEED_CYCLECOUNTER_OBJ_32=ia64.o
         cyclecounter_size_32=2
 
         # Must have +DD64 in CPPFLAGS to get the right __LP64__ for headers,
@@ -1055,7 +1055,7 @@ case $host in
     vmx_path=""
 
     # grab this object, though it's not a true cycle counter routine
-    SPEED_CYCLECOUNTER_OBJ=powerpc.lo
+    SPEED_CYCLECOUNTER_OBJ=powerpc.o
     cyclecounter_size=0
 
     case $host_cpu in
@@ -1162,7 +1162,7 @@ case $host in
 	    path_mode64="${path_mode64}powerpc64/mode64 $vmx_path powerpc64"
 	    path="$p $path"
 	    # grab this object, though it's not a true cycle counter routine
-	    SPEED_CYCLECOUNTER_OBJ_mode64=powerpc64.lo
+	    SPEED_CYCLECOUNTER_OBJ_mode64=powerpc64.o
 	    cyclecounter_size_mode64=0
 	    ;;
 	  *-*-darwin*)
@@ -1211,7 +1211,7 @@ case $host in
 	    path_mode64="${path_mode64}powerpc64/mode64 $vmx_path powerpc64"
 	    path_mode32="${path_mode32}powerpc64/mode32 $vmx_path powerpc64"
 	    path="$p $path"
-	    SPEED_CYCLECOUNTER_OBJ_mode64=powerpc64.lo
+	    SPEED_CYCLECOUNTER_OBJ_mode64=powerpc64.o
 	    cyclecounter_size_mode64=0
 	    any_mode64_testlist="sizeof-long-8"
 	    ;;
@@ -1254,7 +1254,7 @@ case $host in
 	    path_mode64="${path_mode64}powerpc64/mode64 $vmx_path powerpc64"
 	    path_mode32="${path_mode32}powerpc64/mode32 $vmx_path powerpc64"
 	    path="$p $path"
-	    SPEED_CYCLECOUNTER_OBJ_mode64=powerpc64.lo
+	    SPEED_CYCLECOUNTER_OBJ_mode64=powerpc64.o
 	    cyclecounter_size_mode64=0
 	    any_mode64_testlist="sizeof-long-8"
 	    ;;
@@ -1584,8 +1584,8 @@ case $host in
         esac
 
         # using the v9 %tick register
-        SPEED_CYCLECOUNTER_OBJ_32=sparcv9.lo
-        SPEED_CYCLECOUNTER_OBJ_64=sparcv9.lo
+        SPEED_CYCLECOUNTER_OBJ_32=sparcv9.o
+        SPEED_CYCLECOUNTER_OBJ_64=sparcv9.o
         cyclecounter_size_32=2
         cyclecounter_size_64=2
         ;;
@@ -1641,10 +1641,10 @@ case $host in
     icc_cflags_opt_maybe="-fp-model~precise"
     any_32_testlist="sizeof-long-4"
     gcc_cflags_optlist="cpu arch noavx"
-    CALLING_CONVENTIONS_OBJS='x86call.lo x86check$U.lo'
+    CALLING_CONVENTIONS_OBJS='x86call.o x86check$U.o'
 
     # Availability of rdtsc is checked at run-time.
-    SPEED_CYCLECOUNTER_OBJ=pentium.lo
+    SPEED_CYCLECOUNTER_OBJ=pentium.o
 
     # gcc 2.7.2 only knows i386 and i486, using -m386 or -m486.  These
     #     represent -mcpu= since -m486 doesn't generate 486 specific insns.
@@ -1900,8 +1900,8 @@ case $host in
 	cclist_64="gcc cc"
 	gcc_64_cflags="$gcc_cflags -m64"
 	gcc_64_cflags_optlist="cpu arch noavx"
-	CALLING_CONVENTIONS_OBJS_64='amd64call.lo amd64check$U.lo'
-	SPEED_CYCLECOUNTER_OBJ_64=x86_64.lo
+	CALLING_CONVENTIONS_OBJS_64='amd64call.o amd64check$U.o'
+	SPEED_CYCLECOUNTER_OBJ_64=x86_64.o
 	cyclecounter_size_64=2
 
 	cclist_x32="gcc cc"
@@ -3217,8 +3217,8 @@ DECL_$tmp_fbase (__MPN(${tmp_fbase}_init));" >>fat.h
 	      fi
 	    fi
 
-            mpn_objects="$mpn_objects ${tmp_prefix}_$tmp_fn.lo"
-            mpn_objs_in_libgmp="$mpn_objs_in_libgmp mpn/${tmp_prefix}_$tmp_fn.lo"
+            mpn_objects="$mpn_objects ${tmp_prefix}_$tmp_fn.o"
+            mpn_objs_in_libgmp="$mpn_objs_in_libgmp mpn/${tmp_prefix}_$tmp_fn.o"
 
             GMP_FILE_TO_FUNCTION(tmp_fbase,tmp_fn)
 
@@ -3407,8 +3407,8 @@ for tmp_fn in $gmp_mpn_functions; do
             tmp_u=
           fi
 
-          mpn_objects="$mpn_objects $tmp_fn$tmp_u.lo"
-          mpn_objs_in_libgmp="$mpn_objs_in_libgmp mpn/$tmp_fn$tmp_u.lo"
+          mpn_objects="$mpn_objects $tmp_fn$tmp_u.o"
+          mpn_objs_in_libgmp="$mpn_objs_in_libgmp mpn/$tmp_fn$tmp_u.o"
           AC_CONFIG_LINKS(mpn/$tmp_fn.$tmp_ext:mpn/$tmp_dir/$tmp_base.$tmp_ext)
           gmp_srclinks="$gmp_srclinks mpn/$tmp_fn.$tmp_ext"
 

@@ -34,10 +34,10 @@ AM_CPPFLAGS = -D__GMP_WITHIN_GMP -I$(top_srcdir) \
 
 OFILES = @mpn_objects@
 
-noinst_LTLIBRARIES = libmpn.la
-nodist_libmpn_la_SOURCES = fib_table.c mp_bases.c
-libmpn_la_LIBADD = $(OFILES)
-libmpn_la_DEPENDENCIES = $(OFILES)
+noinst_LIBRARIES = libmpn.a
+nodist_libmpn_a_SOURCES = fib_table.c mp_bases.c
+libmpn_a_LIBADD = $(OFILES)
+libmpn_a_DEPENDENCIES = $(OFILES)
 
 TARG_DIST = alpha arm arm64 cray generic ia64 lisp m68k m88k \
   minithres mips32 mips64 pa32 pa64 power powerpc32 powerpc64 \

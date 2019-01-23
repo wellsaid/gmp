@@ -31,8 +31,8 @@
 
 AM_CPPFLAGS = -D__GMP_WITHIN_GMP -I$(top_srcdir)
 
-noinst_LTLIBRARIES = libscanf.la
+noinst_LIBRARIES = libscanf.a
 
-libscanf_la_SOURCES = \
+libscanf_a_SOURCES = \
   doscan.c fscanf.c fscanffuns.c scanf.c sscanf.c sscanffuns.c \
   vfscanf.c vscanf.c vsscanf.c

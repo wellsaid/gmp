@@ -3632,19 +3632,19 @@ case $gmp_cv_option_alloca in
       AC_MSG_ERROR([--enable-alloca=alloca specified, but alloca not available])
     fi
     AC_DEFINE(WANT_TMP_ALLOCA)
-    TAL_OBJECT=tal-reent$U.lo
+    TAL_OBJECT=tal-reent$U.o
     ;;
   malloc-reentrant)
     AC_DEFINE(WANT_TMP_REENTRANT)
-    TAL_OBJECT=tal-reent$U.lo
+    TAL_OBJECT=tal-reent$U.o
     ;;
   malloc-notreentrant)
     AC_DEFINE(WANT_TMP_NOTREENTRANT)
-    TAL_OBJECT=tal-notreent$U.lo
+    TAL_OBJECT=tal-notreent$U.o
     ;;
   debug)
     AC_DEFINE(WANT_TMP_DEBUG)
-    TAL_OBJECT=tal-debug$U.lo
+    TAL_OBJECT=tal-debug$U.o
     ;;
   *)
     # checks at the start of configure.in should protect us

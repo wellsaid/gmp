@@ -31,9 +31,9 @@
 
 AM_CPPFLAGS = -D__GMP_WITHIN_GMP -I$(top_srcdir)
 
-noinst_LTLIBRARIES = libprintf.la
+noinst_LIBRARIES = libprintf.a
 
-libprintf_la_SOURCES =							 \
+libprintf_a_SOURCES =							 \
   asprintf.c asprntffuns.c doprnt.c doprntf.c doprnti.c			 \
   fprintf.c obprintf.c obvprintf.c obprntffuns.c			 \
   printf.c printffuns.c snprintf.c snprntffuns.c sprintf.c sprintffuns.c \

@@ -31,8 +31,8 @@
 
 AM_CPPFLAGS = -D__GMP_WITHIN_GMP -I$(top_srcdir)
 
-noinst_LTLIBRARIES = libmpz.la
-libmpz_la_SOURCES = aors.h aors_ui.h fits_s.h mul_i.h \
+noinst_LIBRARIES = libmpz.a
+libmpz_a_SOURCES = aors.h aors_ui.h fits_s.h mul_i.h \
   2fac_ui.c \
   add.c add_ui.c abs.c aorsmul.c aorsmul_i.c and.c array_init.c \
   bin_ui.c bin_uiui.c cdiv_q.c \

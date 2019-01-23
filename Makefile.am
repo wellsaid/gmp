@@ -101,16 +101,17 @@
 # it's still good to get the shared library filename (like
 # libgmpxx.so.3.0.4) incrementing, to make it clear which GMP it's from.
 
-LIBGMP_LT_CURRENT    = 13
-LIBGMP_LT_REVISION   = 2
-LIBGMP_LT_AGE        = 3
+SO_VERSION = 13:2:3
+#LIBGMP_LT_CURRENT    = 13
+#LIBGMP_LT_REVISION   = 2
+#LIBGMP_LT_AGE        = 3
 
-LIBGMPXX_LT_CURRENT  = 9
-LIBGMPXX_LT_REVISION = 2
-LIBGMPXX_LT_AGE      = 5
+SO_CXX_VERSION = 9:2:5
+#LIBGMPXX_LT_CURRENT  = 9
+#LIBGMPXX_LT_REVISION = 2
+#LIBGMPXX_LT_AGE      = 5
 
-
-SUBDIRS = tests mpn mpz mpq mpf printf scanf rand cxx demos tune doc
+SUBDIRS = mpn mpz mpq mpf printf scanf rand cxx tune # tests demos doc
 
 EXTRA_DIST = configfsf.guess configfsf.sub .gdbinit INSTALL.autoconf \
 	     COPYING.LESSERv3 COPYINGv2 COPYINGv3
@@ -133,7 +134,7 @@ EXTRA_DIST += gmpxx.h
 includeexecdir = $(exec_prefix)/include
 include_HEADERS = $(GMPXX_HEADERS_OPTION)
 nodist_includeexec_HEADERS = gmp.h
-lib_LTLIBRARIES = libgmp.la $(GMPXX_LTLIBRARIES_OPTION)
+lib_LIBRARIES = libgmp.a $(GMPXX_LIBRARIES_OPTION)
 
 BUILT_SOURCES = gmp.h
 
@@ -142,120 +143,119 @@ DISTCLEANFILES = $(BUILT_SOURCES) config.m4 @gmp_srclinks@
 # Tell gmp.h it's building gmp, not an application, used by windows DLL stuff.
 AM_CPPFLAGS=-D__GMP_WITHIN_GMP
 
+MPF_OBJECTS = mpf/init$U.o mpf/init2$U.o mpf/inits$U.o mpf/set$U.o	    \
+  mpf/set_ui$U.o mpf/set_si$U.o mpf/set_str$U.o mpf/set_d$U.o	    \
+  mpf/set_z$U.o mpf/iset$U.o mpf/iset_ui$U.o mpf/iset_si$U.o	    \
+  mpf/iset_str$U.o mpf/iset_d$U.o mpf/clear$U.o mpf/clears$U.o	    \
+  mpf/get_str$U.o mpf/dump$U.o mpf/size$U.o mpf/eq$U.o mpf/reldiff$U.o \
+  mpf/sqrt$U.o mpf/random2$U.o mpf/inp_str$U.o mpf/out_str$U.o	    \
+  mpf/add$U.o mpf/add_ui$U.o mpf/sub$U.o mpf/sub_ui$U.o mpf/ui_sub$U.o \
+  mpf/mul$U.o mpf/mul_ui$U.o mpf/div$U.o mpf/div_ui$U.o mpf/cmp_z$U.o  \
+  mpf/cmp$U.o mpf/cmp_d$U.o mpf/cmp_ui$U.o mpf/cmp_si$U.o		    \
+  mpf/mul_2exp$U.o mpf/div_2exp$U.o mpf/abs$U.o mpf/neg$U.o		    \
+  mpf/set_q$U.o mpf/get_d$U.o mpf/get_d_2exp$U.o mpf/set_dfl_prec$U.o   \
+  mpf/set_prc$U.o mpf/set_prc_raw$U.o mpf/get_dfl_prec$U.o               \
+  mpf/get_prc$U.o mpf/ui_div$U.o mpf/sqrt_ui$U.o                         \
+  mpf/ceilfloor$U.o mpf/trunc$U.o mpf/pow_ui$U.o			    \
+  mpf/urandomb$U.o mpf/swap$U.o					    \
+  mpf/fits_sint$U.o mpf/fits_slong$U.o mpf/fits_sshort$U.o		    \
+  mpf/fits_uint$U.o mpf/fits_ulong$U.o mpf/fits_ushort$U.o		    \
+  mpf/get_si$U.o mpf/get_ui$U.o					    \
+  mpf/int_p$U.o
 
-MPF_OBJECTS = mpf/init$U.lo mpf/init2$U.lo mpf/inits$U.lo mpf/set$U.lo	    \
-  mpf/set_ui$U.lo mpf/set_si$U.lo mpf/set_str$U.lo mpf/set_d$U.lo	    \
-  mpf/set_z$U.lo mpf/iset$U.lo mpf/iset_ui$U.lo mpf/iset_si$U.lo	    \
-  mpf/iset_str$U.lo mpf/iset_d$U.lo mpf/clear$U.lo mpf/clears$U.lo	    \
-  mpf/get_str$U.lo mpf/dump$U.lo mpf/size$U.lo mpf/eq$U.lo mpf/reldiff$U.lo \
-  mpf/sqrt$U.lo mpf/random2$U.lo mpf/inp_str$U.lo mpf/out_str$U.lo	    \
-  mpf/add$U.lo mpf/add_ui$U.lo mpf/sub$U.lo mpf/sub_ui$U.lo mpf/ui_sub$U.lo \
-  mpf/mul$U.lo mpf/mul_ui$U.lo mpf/div$U.lo mpf/div_ui$U.lo mpf/cmp_z$U.lo  \
-  mpf/cmp$U.lo mpf/cmp_d$U.lo mpf/cmp_ui$U.lo mpf/cmp_si$U.lo		    \
-  mpf/mul_2exp$U.lo mpf/div_2exp$U.lo mpf/abs$U.lo mpf/neg$U.lo		    \
-  mpf/set_q$U.lo mpf/get_d$U.lo mpf/get_d_2exp$U.lo mpf/set_dfl_prec$U.lo   \
-  mpf/set_prc$U.lo mpf/set_prc_raw$U.lo mpf/get_dfl_prec$U.lo               \
-  mpf/get_prc$U.lo mpf/ui_div$U.lo mpf/sqrt_ui$U.lo                         \
-  mpf/ceilfloor$U.lo mpf/trunc$U.lo mpf/pow_ui$U.lo			    \
-  mpf/urandomb$U.lo mpf/swap$U.lo					    \
-  mpf/fits_sint$U.lo mpf/fits_slong$U.lo mpf/fits_sshort$U.lo		    \
-  mpf/fits_uint$U.lo mpf/fits_ulong$U.lo mpf/fits_ushort$U.lo		    \
-  mpf/get_si$U.lo mpf/get_ui$U.lo					    \
-  mpf/int_p$U.lo
+MPZ_OBJECTS = mpz/abs$U.o mpz/add$U.o mpz/add_ui$U.o			\
+  mpz/aorsmul$U.o mpz/aorsmul_i$U.o mpz/and$U.o mpz/array_init$U.o	\
+  mpz/bin_ui$U.o mpz/bin_uiui$U.o					\
+  mpz/cdiv_q$U.o mpz/cdiv_q_ui$U.o					\
+  mpz/cdiv_qr$U.o mpz/cdiv_qr_ui$U.o					\
+  mpz/cdiv_r$U.o mpz/cdiv_r_ui$U.o mpz/cdiv_ui$U.o			\
+  mpz/cfdiv_q_2exp$U.o mpz/cfdiv_r_2exp$U.o				\
+  mpz/clear$U.o mpz/clears$U.o mpz/clrbit$U.o			\
+  mpz/cmp$U.o mpz/cmp_d$U.o mpz/cmp_si$U.o mpz/cmp_ui$U.o		\
+  mpz/cmpabs$U.o mpz/cmpabs_d$U.o mpz/cmpabs_ui$U.o			\
+  mpz/com$U.o mpz/combit$U.o						\
+  mpz/cong$U.o mpz/cong_2exp$U.o mpz/cong_ui$U.o			\
+  mpz/divexact$U.o mpz/divegcd$U.o mpz/dive_ui$U.o			\
+  mpz/divis$U.o mpz/divis_ui$U.o mpz/divis_2exp$U.o mpz/dump$U.o	\
+  mpz/export$U.o mpz/mfac_uiui$U.o					\
+  mpz/2fac_ui$U.o mpz/fac_ui$U.o mpz/oddfac_1$U.o mpz/prodlimbs$U.o	\
+  mpz/fdiv_q_ui$U.o mpz/fdiv_qr$U.o mpz/fdiv_qr_ui$U.o		\
+  mpz/fdiv_r$U.o mpz/fdiv_r_ui$U.o mpz/fdiv_q$U.o			\
+  mpz/fdiv_ui$U.o mpz/fib_ui$U.o mpz/fib2_ui$U.o mpz/fits_sint$U.o	\
+  mpz/fits_slong$U.o mpz/fits_sshort$U.o mpz/fits_uint$U.o		\
+  mpz/fits_ulong$U.o mpz/fits_ushort$U.o mpz/gcd$U.o			\
+  mpz/gcd_ui$U.o mpz/gcdext$U.o mpz/get_d$U.o mpz/get_d_2exp$U.o	\
+  mpz/get_si$U.o mpz/get_str$U.o mpz/get_ui$U.o mpz/getlimbn$U.o	\
+  mpz/hamdist$U.o							\
+  mpz/import$U.o mpz/init$U.o mpz/init2$U.o mpz/inits$U.o		\
+  mpz/inp_raw$U.o mpz/inp_str$U.o mpz/invert$U.o			\
+  mpz/ior$U.o mpz/iset$U.o mpz/iset_d$U.o mpz/iset_si$U.o		\
+  mpz/iset_str$U.o mpz/iset_ui$U.o mpz/jacobi$U.o mpz/kronsz$U.o	\
+  mpz/kronuz$U.o mpz/kronzs$U.o mpz/kronzu$U.o			\
+  mpz/lcm$U.o mpz/lcm_ui$U.o mpz/limbs_finish$U.o			\
+  mpz/limbs_modify$U.o mpz/limbs_read$U.o mpz/limbs_write$U.o	\
+  mpz/lucnum_ui$U.o mpz/lucnum2_ui$U.o				\
+  mpz/millerrabin$U.o mpz/mod$U.o mpz/mul$U.o mpz/mul_2exp$U.o	\
+  mpz/mul_si$U.o mpz/mul_ui$U.o					\
+  mpz/n_pow_ui$U.o mpz/neg$U.o mpz/nextprime$U.o			\
+  mpz/out_raw$U.o mpz/out_str$U.o mpz/perfpow$U.o mpz/perfsqr$U.o	\
+  mpz/popcount$U.o mpz/pow_ui$U.o mpz/powm$U.o mpz/powm_sec$U.o	\
+  mpz/powm_ui$U.o mpz/primorial_ui$U.o				\
+  mpz/pprime_p$U.o mpz/random$U.o mpz/random2$U.o			\
+  mpz/realloc$U.o mpz/realloc2$U.o mpz/remove$U.o mpz/roinit_n$U.o  \
+  mpz/root$U.o mpz/rootrem$U.o mpz/rrandomb$U.o mpz/scan0$U.o	\
+  mpz/scan1$U.o mpz/set$U.o mpz/set_d$U.o mpz/set_f$U.o		\
+  mpz/set_q$U.o mpz/set_si$U.o mpz/set_str$U.o mpz/set_ui$U.o	\
+  mpz/setbit$U.o							\
+  mpz/size$U.o mpz/sizeinbase$U.o mpz/sqrt$U.o			\
+  mpz/sqrtrem$U.o mpz/sub$U.o mpz/sub_ui$U.o mpz/swap$U.o		\
+  mpz/tdiv_ui$U.o mpz/tdiv_q$U.o mpz/tdiv_q_2exp$U.o			\
+  mpz/tdiv_q_ui$U.o mpz/tdiv_qr$U.o mpz/tdiv_qr_ui$U.o		\
+  mpz/tdiv_r$U.o mpz/tdiv_r_2exp$U.o mpz/tdiv_r_ui$U.o		\
+  mpz/tstbit$U.o mpz/ui_pow_ui$U.o mpz/ui_sub$U.o mpz/urandomb$U.o	\
+  mpz/urandomm$U.o mpz/xor$U.o
 
-MPZ_OBJECTS = mpz/abs$U.lo mpz/add$U.lo mpz/add_ui$U.lo			\
-  mpz/aorsmul$U.lo mpz/aorsmul_i$U.lo mpz/and$U.lo mpz/array_init$U.lo	\
-  mpz/bin_ui$U.lo mpz/bin_uiui$U.lo					\
-  mpz/cdiv_q$U.lo mpz/cdiv_q_ui$U.lo					\
-  mpz/cdiv_qr$U.lo mpz/cdiv_qr_ui$U.lo					\
-  mpz/cdiv_r$U.lo mpz/cdiv_r_ui$U.lo mpz/cdiv_ui$U.lo			\
-  mpz/cfdiv_q_2exp$U.lo mpz/cfdiv_r_2exp$U.lo				\
-  mpz/clear$U.lo mpz/clears$U.lo mpz/clrbit$U.lo			\
-  mpz/cmp$U.lo mpz/cmp_d$U.lo mpz/cmp_si$U.lo mpz/cmp_ui$U.lo		\
-  mpz/cmpabs$U.lo mpz/cmpabs_d$U.lo mpz/cmpabs_ui$U.lo			\
-  mpz/com$U.lo mpz/combit$U.lo						\
-  mpz/cong$U.lo mpz/cong_2exp$U.lo mpz/cong_ui$U.lo			\
-  mpz/divexact$U.lo mpz/divegcd$U.lo mpz/dive_ui$U.lo			\
-  mpz/divis$U.lo mpz/divis_ui$U.lo mpz/divis_2exp$U.lo mpz/dump$U.lo	\
-  mpz/export$U.lo mpz/mfac_uiui$U.lo					\
-  mpz/2fac_ui$U.lo mpz/fac_ui$U.lo mpz/oddfac_1$U.lo mpz/prodlimbs$U.lo	\
-  mpz/fdiv_q_ui$U.lo mpz/fdiv_qr$U.lo mpz/fdiv_qr_ui$U.lo		\
-  mpz/fdiv_r$U.lo mpz/fdiv_r_ui$U.lo mpz/fdiv_q$U.lo			\
-  mpz/fdiv_ui$U.lo mpz/fib_ui$U.lo mpz/fib2_ui$U.lo mpz/fits_sint$U.lo	\
-  mpz/fits_slong$U.lo mpz/fits_sshort$U.lo mpz/fits_uint$U.lo		\
-  mpz/fits_ulong$U.lo mpz/fits_ushort$U.lo mpz/gcd$U.lo			\
-  mpz/gcd_ui$U.lo mpz/gcdext$U.lo mpz/get_d$U.lo mpz/get_d_2exp$U.lo	\
-  mpz/get_si$U.lo mpz/get_str$U.lo mpz/get_ui$U.lo mpz/getlimbn$U.lo	\
-  mpz/hamdist$U.lo							\
-  mpz/import$U.lo mpz/init$U.lo mpz/init2$U.lo mpz/inits$U.lo		\
-  mpz/inp_raw$U.lo mpz/inp_str$U.lo mpz/invert$U.lo			\
-  mpz/ior$U.lo mpz/iset$U.lo mpz/iset_d$U.lo mpz/iset_si$U.lo		\
-  mpz/iset_str$U.lo mpz/iset_ui$U.lo mpz/jacobi$U.lo mpz/kronsz$U.lo	\
-  mpz/kronuz$U.lo mpz/kronzs$U.lo mpz/kronzu$U.lo			\
-  mpz/lcm$U.lo mpz/lcm_ui$U.lo mpz/limbs_finish$U.lo			\
-  mpz/limbs_modify$U.lo mpz/limbs_read$U.lo mpz/limbs_write$U.lo	\
-  mpz/lucnum_ui$U.lo mpz/lucnum2_ui$U.lo				\
-  mpz/millerrabin$U.lo mpz/mod$U.lo mpz/mul$U.lo mpz/mul_2exp$U.lo	\
-  mpz/mul_si$U.lo mpz/mul_ui$U.lo					\
-  mpz/n_pow_ui$U.lo mpz/neg$U.lo mpz/nextprime$U.lo			\
-  mpz/out_raw$U.lo mpz/out_str$U.lo mpz/perfpow$U.lo mpz/perfsqr$U.lo	\
-  mpz/popcount$U.lo mpz/pow_ui$U.lo mpz/powm$U.lo mpz/powm_sec$U.lo	\
-  mpz/powm_ui$U.lo mpz/primorial_ui$U.lo				\
-  mpz/pprime_p$U.lo mpz/random$U.lo mpz/random2$U.lo			\
-  mpz/realloc$U.lo mpz/realloc2$U.lo mpz/remove$U.lo mpz/roinit_n$U.lo  \
-  mpz/root$U.lo mpz/rootrem$U.lo mpz/rrandomb$U.lo mpz/scan0$U.lo	\
-  mpz/scan1$U.lo mpz/set$U.lo mpz/set_d$U.lo mpz/set_f$U.lo		\
-  mpz/set_q$U.lo mpz/set_si$U.lo mpz/set_str$U.lo mpz/set_ui$U.lo	\
-  mpz/setbit$U.lo							\
-  mpz/size$U.lo mpz/sizeinbase$U.lo mpz/sqrt$U.lo			\
-  mpz/sqrtrem$U.lo mpz/sub$U.lo mpz/sub_ui$U.lo mpz/swap$U.lo		\
-  mpz/tdiv_ui$U.lo mpz/tdiv_q$U.lo mpz/tdiv_q_2exp$U.lo			\
-  mpz/tdiv_q_ui$U.lo mpz/tdiv_qr$U.lo mpz/tdiv_qr_ui$U.lo		\
-  mpz/tdiv_r$U.lo mpz/tdiv_r_2exp$U.lo mpz/tdiv_r_ui$U.lo		\
-  mpz/tstbit$U.lo mpz/ui_pow_ui$U.lo mpz/ui_sub$U.lo mpz/urandomb$U.lo	\
-  mpz/urandomm$U.lo mpz/xor$U.lo
+MPQ_OBJECTS = mpq/abs$U.o mpq/aors$U.o				\
+  mpq/canonicalize$U.o mpq/clear$U.o mpq/clears$U.o			\
+  mpq/cmp$U.o mpq/cmp_si$U.o mpq/cmp_ui$U.o mpq/div$U.o		\
+  mpq/get_d$U.o mpq/get_den$U.o mpq/get_num$U.o mpq/get_str$U.o	\
+  mpq/init$U.o mpq/inits$U.o mpq/inp_str$U.o mpq/inv$U.o		\
+  mpq/md_2exp$U.o mpq/mul$U.o mpq/neg$U.o mpq/out_str$U.o		\
+  mpq/set$U.o mpq/set_den$U.o mpq/set_num$U.o			\
+  mpq/set_si$U.o mpq/set_str$U.o mpq/set_ui$U.o			\
+  mpq/equal$U.o mpq/set_z$U.o mpq/set_d$U.o				\
+  mpq/set_f$U.o mpq/swap$U.o
 
-MPQ_OBJECTS = mpq/abs$U.lo mpq/aors$U.lo				\
-  mpq/canonicalize$U.lo mpq/clear$U.lo mpq/clears$U.lo			\
-  mpq/cmp$U.lo mpq/cmp_si$U.lo mpq/cmp_ui$U.lo mpq/div$U.lo		\
-  mpq/get_d$U.lo mpq/get_den$U.lo mpq/get_num$U.lo mpq/get_str$U.lo	\
-  mpq/init$U.lo mpq/inits$U.lo mpq/inp_str$U.lo mpq/inv$U.lo		\
-  mpq/md_2exp$U.lo mpq/mul$U.lo mpq/neg$U.lo mpq/out_str$U.lo		\
-  mpq/set$U.lo mpq/set_den$U.lo mpq/set_num$U.lo			\
-  mpq/set_si$U.lo mpq/set_str$U.lo mpq/set_ui$U.lo			\
-  mpq/equal$U.lo mpq/set_z$U.lo mpq/set_d$U.lo				\
-  mpq/set_f$U.lo mpq/swap$U.lo
-
-MPN_OBJECTS = mpn/fib_table$U.lo mpn/mp_bases$U.lo
+MPN_OBJECTS = mpn/fib_table$U.o mpn/mp_bases$U.o
 
 PRINTF_OBJECTS =							\
-  printf/asprintf$U.lo printf/asprntffuns$U.lo				\
-  printf/doprnt$U.lo printf/doprntf$U.lo printf/doprnti$U.lo		\
-  printf/fprintf$U.lo							\
-  printf/obprintf$U.lo printf/obvprintf$U.lo printf/obprntffuns$U.lo	\
-  printf/printf$U.lo printf/printffuns$U.lo				\
-  printf/snprintf$U.lo printf/snprntffuns$U.lo				\
-  printf/sprintf$U.lo printf/sprintffuns$U.lo				\
-  printf/vasprintf$U.lo printf/vfprintf$U.lo printf/vprintf$U.lo	\
-  printf/vsnprintf$U.lo printf/vsprintf$U.lo				\
-  printf/repl-vsnprintf$U.lo
+  printf/asprintf$U.o printf/asprntffuns$U.o				\
+  printf/doprnt$U.o printf/doprntf$U.o printf/doprnti$U.o		\
+  printf/fprintf$U.o							\
+  printf/obprintf$U.o printf/obvprintf$U.o printf/obprntffuns$U.o	\
+  printf/printf$U.o printf/printffuns$U.o				\
+  printf/snprintf$U.o printf/snprntffuns$U.o				\
+  printf/sprintf$U.o printf/sprintffuns$U.o				\
+  printf/vasprintf$U.o printf/vfprintf$U.o printf/vprintf$U.o	\
+  printf/vsnprintf$U.o printf/vsprintf$U.o				\
+  printf/repl-vsnprintf$U.o
 
 SCANF_OBJECTS =							\
-  scanf/doscan$U.lo scanf/fscanf$U.lo scanf/fscanffuns$U.lo	\
-  scanf/scanf$U.lo scanf/sscanf$U.lo scanf/sscanffuns$U.lo	\
-  scanf/vfscanf$U.lo scanf/vscanf$U.lo scanf/vsscanf$U.lo
+  scanf/doscan$U.o scanf/fscanf$U.o scanf/fscanffuns$U.o	\
+  scanf/scanf$U.o scanf/sscanf$U.o scanf/sscanffuns$U.o	\
+  scanf/vfscanf$U.o scanf/vscanf$U.o scanf/vsscanf$U.o
 
 RANDOM_OBJECTS =							\
-  rand/rand$U.lo rand/randclr$U.lo rand/randdef$U.lo rand/randiset$U.lo	\
-  rand/randlc2s$U.lo rand/randlc2x$U.lo rand/randmt$U.lo		\
-  rand/randmts$U.lo rand/rands$U.lo rand/randsd$U.lo rand/randsdui$U.lo	\
-  rand/randbui$U.lo rand/randmui$U.lo
+  rand/rand$U.o rand/randclr$U.o rand/randdef$U.o rand/randiset$U.o	\
+  rand/randlc2s$U.o rand/randlc2x$U.o rand/randmt$U.o		\
+  rand/randmts$U.o rand/rands$U.o rand/randsd$U.o rand/randsdui$U.o	\
+  rand/randbui$U.o rand/randmui$U.o
 
 # no $U for C++ files
 CXX_OBJECTS =								\
-  cxx/isfuns.lo cxx/ismpf.lo cxx/ismpq.lo cxx/ismpz.lo cxx/ismpznw.lo	\
-  cxx/limits.lo cxx/osdoprnti.lo cxx/osfuns.lo				\
-  cxx/osmpf.lo cxx/osmpq.lo cxx/osmpz.lo
+  cxx/isfuns.o cxx/ismpf.o cxx/ismpq.o cxx/ismpz.o cxx/ismpznw.o	\
+  cxx/limits.o cxx/osdoprnti.o cxx/osfuns.o				\
+  cxx/osmpf.o cxx/osmpq.o cxx/osmpz.o
 
 # In libtool 1.5 it doesn't work to build libgmp.la from the convenience
 # libraries like mpz/libmpz.la.  Or rather it works, but it ends up putting
@@ -271,18 +271,18 @@ CXX_OBJECTS =								\
 # -export-symbols, since the tune and speed programs, and perhaps some of
 # the test programs, want to access undocumented symbols.
 
-libgmp_la_SOURCES = gmp-impl.h longlong.h				\
+libgmp_a_SOURCES = gmp-impl.h longlong.h				\
   assert.c compat.c errno.c extract-dbl.c invalid.c memory.c		\
   mp_bpl.c mp_clz_tab.c mp_dv_tab.c mp_minv_tab.c mp_get_fns.c mp_set_fns.c \
   version.c nextprime.c primesieve.c
-EXTRA_libgmp_la_SOURCES = tal-debug.c tal-notreent.c tal-reent.c
-libgmp_la_DEPENDENCIES = @TAL_OBJECT@		\
+EXTRA_libgmp_a_SOURCES = tal-debug.c tal-notreent.c tal-reent.c
+libgmp_a_DEPENDENCIES = @TAL_OBJECT@		\
   $(MPF_OBJECTS) $(MPZ_OBJECTS) $(MPQ_OBJECTS)	\
   $(MPN_OBJECTS) @mpn_objs_in_libgmp@		\
   $(PRINTF_OBJECTS)  $(SCANF_OBJECTS) $(RANDOM_OBJECTS)
-libgmp_la_LIBADD = $(libgmp_la_DEPENDENCIES)
-libgmp_la_LDFLAGS = $(GMP_LDFLAGS) $(LIBGMP_LDFLAGS) \
-  -version-info $(LIBGMP_LT_CURRENT):$(LIBGMP_LT_REVISION):$(LIBGMP_LT_AGE)
+libgmp_a_LIBADD = $(libgmp_a_DEPENDENCIES)
+libgmp_a_LDFLAGS = $(GMP_LDFLAGS) $(LIBGMP_LDFLAGS) \
+  -version-info $(SO_VERSION)
 
 
 # We need at least one .cc file in $(libgmpxx_la_SOURCES) so automake will
@@ -290,13 +290,13 @@ libgmp_la_LDFLAGS = $(GMP_LDFLAGS) $(LIBGMP_LDFLAGS) \
 # file.
 
 if WANT_CXX
-GMPXX_LTLIBRARIES_OPTION = libgmpxx.la
+GMPXX_LIBRARIES_OPTION = libgmpxx.a
 endif
-libgmpxx_la_SOURCES = cxx/dummy.cc
-libgmpxx_la_DEPENDENCIES = $(CXX_OBJECTS) libgmp.la
-libgmpxx_la_LIBADD = $(libgmpxx_la_DEPENDENCIES)
-libgmpxx_la_LDFLAGS = $(GMP_LDFLAGS) $(LIBGMPXX_LDFLAGS) \
-  -version-info $(LIBGMPXX_LT_CURRENT):$(LIBGMPXX_LT_REVISION):$(LIBGMPXX_LT_AGE)
+libgmpxx_a_SOURCES = cxx/dummy.cc
+libgmpxx_a_DEPENDENCIES = $(CXX_OBJECTS) libgmp.la
+libgmpxx_a_LIBADD = $(libgmpxx_a_DEPENDENCIES)
+libgmpxx_a_LDFLAGS = $(GMP_LDFLAGS) $(LIBGMPXX_LDFLAGS) \
+  -version-info $(SO_CXX_VERSION)
 
 
 

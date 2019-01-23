@@ -31,8 +31,8 @@
 
 AM_CPPFLAGS = -D__GMP_WITHIN_GMP -I$(top_srcdir)
 
-noinst_LTLIBRARIES = librandom.la
+noinst_LIBRARIES = librandom.a
 
-librandom_la_SOURCES = randmt.h						\
+librandom_a_SOURCES = randmt.h						\
   rand.c randclr.c randdef.c randiset.c randlc2s.c randlc2x.c randmt.c	\
   randmts.c rands.c randsd.c randsdui.c randbui.c randmui.c
