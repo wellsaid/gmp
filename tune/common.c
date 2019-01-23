@@ -89,7 +89,7 @@ pentium_wbinvd(void)
     int   i, sum;
 
     if (p == NULL)
-      p = malloc (WBINVDSIZE);
+      p = heapmem_alloc (WBINVDSIZE);
 
 #if 0
     for (i = 0; i < WBINVDSIZE; i++)
@@ -1931,8 +1931,8 @@ speed_malloc_free (struct speed_params *s)
 {
   size_t  bytes = s->size * GMP_LIMB_BYTES;
   SPEED_ROUTINE_ALLOC_FREE (void *p,
-			    p = malloc (bytes);
-			    free (p));
+			    p = heapmem_alloc (bytes);
+			    heapmem_free (p));
 }
 
 double
@@ -1940,9 +1940,9 @@ speed_malloc_realloc_free (struct speed_params *s)
 {
   size_t  bytes = s->size * GMP_LIMB_BYTES;
   SPEED_ROUTINE_ALLOC_FREE (void *p,
-			    p = malloc (GMP_LIMB_BYTES);
-			    p = realloc (p, bytes);
-			    free (p));
+			    p = heapmem_alloc (GMP_LIMB_BYTES);
+			    p = heapmem_realloc (p, bytes);
+			    heapmem_free (p));
 }
 
 double

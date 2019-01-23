@@ -912,12 +912,12 @@ fftmes (mp_size_t nmin, mp_size_t nmax, int initial_k, struct fft_param_t *p, in
       idx = 1;
     }
 
-  ap = (mp_ptr) malloc (sizeof (mp_limb_t));
+  ap = (mp_ptr) heapmem_alloc (sizeof (mp_limb_t));
   if (p->sqr)
     bp = ap;
   else
-    bp = (mp_ptr) malloc (sizeof (mp_limb_t));
-  rp = (mp_ptr) malloc (sizeof (mp_limb_t));
+    bp = (mp_ptr) heapmem_alloc (sizeof (mp_limb_t));
+  rp = (mp_ptr) heapmem_alloc (sizeof (mp_limb_t));
   alloc = 1;
 
   /* Round n to comply to initial k value */
@@ -955,22 +955,22 @@ fftmes (mp_size_t nmin, mp_size_t nmax, int initial_k, struct fft_param_t *p, in
 	      alloc = n1;
 	      if (p->sqr)
 		{
-		  ap = (mp_ptr) realloc (ap, sizeof (mp_limb_t));
-		  rp = (mp_ptr) realloc (rp, sizeof (mp_limb_t));
-		  ap = bp = (mp_ptr) realloc (ap, alloc * sizeof (mp_limb_t));
+		  ap = (mp_ptr) heapmem_realloc (ap, sizeof (mp_limb_t));
+		  rp = (mp_ptr) heapmem_realloc (rp, sizeof (mp_limb_t));
+		  ap = bp = (mp_ptr) heapmem_realloc (ap, alloc * sizeof (mp_limb_t));
 		  mpn_random (ap, alloc);
-		  rp = (mp_ptr) realloc (rp, alloc * sizeof (mp_limb_t));
+		  rp = (mp_ptr) heapmem_realloc (rp, alloc * sizeof (mp_limb_t));
 		}
 	      else
 		{
-		  ap = (mp_ptr) realloc (ap, sizeof (mp_limb_t));
-		  bp = (mp_ptr) realloc (bp, sizeof (mp_limb_t));
-		  rp = (mp_ptr) realloc (rp, sizeof (mp_limb_t));
-		  ap = (mp_ptr) realloc (ap, alloc * sizeof (mp_limb_t));
+		  ap = (mp_ptr) heapmem_realloc (ap, sizeof (mp_limb_t));
+		  bp = (mp_ptr) heapmem_realloc (bp, sizeof (mp_limb_t));
+		  rp = (mp_ptr) heapmem_realloc (rp, sizeof (mp_limb_t));
+		  ap = (mp_ptr) heapmem_realloc (ap, alloc * sizeof (mp_limb_t));
 		  mpn_random (ap, alloc);
-		  bp = (mp_ptr) realloc (bp, alloc * sizeof (mp_limb_t));
+		  bp = (mp_ptr) heapmem_realloc (bp, alloc * sizeof (mp_limb_t));
 		  mpn_random (bp, alloc);
-		  rp = (mp_ptr) realloc (rp, alloc * sizeof (mp_limb_t));
+		  rp = (mp_ptr) heapmem_realloc (rp, alloc * sizeof (mp_limb_t));
 		}
 	    }
 
@@ -1057,10 +1057,10 @@ fftmes (mp_size_t nmin, mp_size_t nmax, int initial_k, struct fft_param_t *p, in
   if (print)
     printf (" }\n");
 
-  free (ap);
+  heapmem_free (ap);
   if (! p->sqr)
-    free (bp);
-  free (rp);
+    heapmem_free (bp);
+  heapmem_free (rp);
 
   return idx;
 }
