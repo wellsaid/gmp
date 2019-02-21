@@ -43,6 +43,10 @@ see https://www.gnu.org/licenses/.  */
 #ifndef __GMP_IMPL_H__
 #define __GMP_IMPL_H__
 
+#include "os/sys/log.h"
+#define LOG_LEVEL LOG_LEVEL_ERR
+#define LOG_MODULE "GMP"
+
 #if defined _CRAY
 #include <intrinsics.h>  /* for _popcnt */
 #endif

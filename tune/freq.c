@@ -670,7 +670,7 @@ freq_processor_info (int help)
 
       if (mhz != 0 && p.pi_clock != mhz)
         {
-          fprintf (stderr,
+          LOG_ERR (
                    "freq_processor_info(): There's more than one CPU and they have different clock speeds\n");
           return 0;
         }
@@ -865,9 +865,9 @@ speed_cycletime_init (void)
 void
 speed_cycletime_fail (const char *str)
 {
-  fprintf (stderr, "Measuring with: %s\n", speed_time_string);
-  fprintf (stderr, "%s,\n", str);
-  fprintf (stderr, "but none of the following are available,\n");
+  LOG_ERR ( "Measuring with: %s\n", speed_time_string);
+  LOG_ERR ( "%s,\n", str);
+  LOG_ERR ( "but none of the following are available,\n");
   freq_all (1);
   abort ();
 }

@@ -45,7 +45,7 @@ _mpz_realloc (mpz_ptr m, mp_size_t new_alloc)
     {
       if (UNLIKELY (new_alloc > ULONG_MAX / GMP_NUMB_BITS))
 	{
-	  fprintf (stderr, "gmp: overflow in mpz type\n");
+	  LOG_ERR ( "gmp: overflow in mpz type\n");
 	  abort ();
 	}
     }
@@ -53,7 +53,7 @@ _mpz_realloc (mpz_ptr m, mp_size_t new_alloc)
     {
       if (UNLIKELY (new_alloc > INT_MAX))
 	{
-	  fprintf (stderr, "gmp: overflow in mpz type\n");
+	  LOG_ERR ( "gmp: overflow in mpz type\n");
 	  abort ();
 	}
     }

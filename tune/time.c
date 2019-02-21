@@ -537,7 +537,7 @@ clk_tck (void)
       return result;
     }
 
-  fprintf (stderr,
+  LOG_ERR (
 	   "sysconf(_SC_CLK_TCK) not working, using CLK_TCK instead\n");
 #endif
 
@@ -547,7 +547,7 @@ clk_tck (void)
     printf ("CLK_TCK is %ld per second\n", result);
   return result;
 #else
-  fprintf (stderr, "CLK_TCK not defined, cannot continue\n");
+  LOG_ERR ( "CLK_TCK not defined, cannot continue\n");
   abort ();
 #endif
 }
@@ -1054,8 +1054,8 @@ speed_time_init (void)
 	    }
 	  else
 	    {
-	      fprintf (stderr, "WARNING: cycle counter is 32 bits and there's no other functions.\n");
-	      fprintf (stderr, "    Wraparounds may produce bad results on long measurements.\n");
+	      LOG_ERR ( "WARNING: cycle counter is 32 bits and there's no other functions.\n");
+	      LOG_ERR ( "    Wraparounds may produce bad results on long measurements.\n");
 	    }
 	}
 
@@ -1067,9 +1067,9 @@ speed_time_init (void)
 
 	  if (speed_precision * supplement_unittime > cycles_limit)
 	    {
-	      fprintf (stderr, "WARNING: requested precision can't always be achieved due to limited range\n");
-	      fprintf (stderr, "    cycle counter and limited precision supplemental method\n");
-	      fprintf (stderr, "    (%s)\n", speed_time_string);
+	      LOG_ERR ( "WARNING: requested precision can't always be achieved due to limited range\n");
+	      LOG_ERR ( "    cycle counter and limited precision supplemental method\n");
+	      LOG_ERR ( "    (%s)\n", speed_time_string);
 	    }
 	}
     }
@@ -1124,7 +1124,7 @@ speed_time_init (void)
 		 unittime_string (speed_unittime));
 	break;
       default:
-	fprintf (stderr, "ERROR: Unrecognised timebasestruct_t flag=%d\n",
+	LOG_ERR ( "ERROR: Unrecognised timebasestruct_t flag=%d\n",
 		 t.flag);
 	abort ();
       }
@@ -1194,8 +1194,8 @@ speed_time_init (void)
     }
   else
     {
-      fprintf (stderr, "No time measuring method available\n");
-      fprintf (stderr, "None of: speed_cyclecounter(), STCK(), getrusage(), gettimeofday(), times()\n");
+      LOG_ERR ( "No time measuring method available\n");
+      LOG_ERR ( "None of: speed_cyclecounter(), STCK(), getrusage(), gettimeofday(), times()\n");
       abort ();
     }
 
@@ -1583,14 +1583,14 @@ speed_endtime (void)
   if (use_grus)   END_USE ("getrusage()",    t_grus);
   if (use_gtod)   END_USE ("gettimeofday()", t_gtod);
 
-  fprintf (stderr, "speed_endtime(): oops, no time method available\n");
+  LOG_ERR ( "speed_endtime(): oops, no time method available\n");
   abort ();
 
  done:
   if (result < 0.0)
     {
       if (speed_option_verbose >= 2)
-	fprintf (stderr, "speed_endtime(): warning, treating negative time as zero: %.9f\n", result);
+	LOG_ERR ( "speed_endtime(): warning, treating negative time as zero: %.9f\n", result);
       result = 0.0;
     }
   return result;

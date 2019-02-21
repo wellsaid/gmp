@@ -35,9 +35,6 @@ see https://www.gnu.org/licenses/.  */
 #include "gmp-impl.h"
 
 #include <os/lib/heapmem.h>
-#include <sys/log.h>
-#define LOG_LEVEL LOG_LEVEL_ERR
-#define LOG_MODULE "GMP"
 
 void * (*__gmp_allocate_func) (size_t) = __gmp_default_allocate;
 void * (*__gmp_reallocate_func) (void *, size_t, size_t) = __gmp_default_reallocate;

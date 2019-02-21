@@ -831,7 +831,7 @@ fopen_for_write (const char *filename)
   FILE  *fp;
   if ((fp = fopen (filename, "w")) == NULL)
     {
-      fprintf (stderr, "Cannot create %s\n", filename);
+      LOG_ERR ( "Cannot create %s\n", filename);
       exit(1);
     }
   return fp;
@@ -847,7 +847,7 @@ fclose_written (FILE *fp, const char *filename)
 
   if (err)
     {
-      fprintf (stderr, "Error writing %s\n", filename);
+      LOG_ERR ( "Error writing %s\n", filename);
       exit(1);
     }
 }
@@ -957,7 +957,7 @@ r_string (const char *s)
       mp_limb_t  l;
       if (n > GMP_LIMB_BITS)
         {
-          fprintf (stderr, "%ld bit parameter invalid (max %d bits)\n",
+          LOG_ERR ( "%ld bit parameter invalid (max %d bits)\n",
                    n, GMP_LIMB_BITS);
           exit (1);
         }
@@ -968,7 +968,7 @@ r_string (const char *s)
     {
       if (n > GMP_LIMB_BITS)
         {
-          fprintf (stderr, "%ld bit parameter invalid (max %d bits)\n",
+          LOG_ERR ( "%ld bit parameter invalid (max %d bits)\n",
                    n, GMP_LIMB_BITS);
           exit (1);
         }
@@ -976,7 +976,7 @@ r_string (const char *s)
     }
   else if (*s != '\0')
     {
-      fprintf (stderr, "invalid r parameter: %s\n", s_orig);
+      LOG_ERR ( "invalid r parameter: %s\n", s_orig);
       exit (1);
     }
 
@@ -1016,7 +1016,7 @@ routine_find (struct choice_t *c, const char *s_orig)
 
           if (! (routine[i].flag & (FLAG_R|FLAG_R_OPTIONAL)))
             {
-              fprintf (stderr,
+              LOG_ERR (
                        "Choice %s bad: doesn't take a \".<r>\" parameter\n",
                        s_orig);
               exit (1);
@@ -1033,7 +1033,7 @@ routine_find (struct choice_t *c, const char *s_orig)
 
           if (routine[i].flag & FLAG_R)
             {
-              fprintf (stderr,
+              LOG_ERR (
                        "Choice %s bad: needs a \".<r>\" parameter\n",
                        s_orig);
               exit (1);
@@ -1045,7 +1045,7 @@ routine_find (struct choice_t *c, const char *s_orig)
         }
     }
 
-  fprintf (stderr, "Choice %s unrecognised\n", s_orig);
+  LOG_ERR ( "Choice %s unrecognised\n", s_orig);
   exit (1);
 }
 
@@ -1121,9 +1121,9 @@ check_align_option (const char *name, mp_size_t align)
 {
   if (align < 0 || align > SPEED_TMP_ALLOC_ADJUST_MASK)
     {
-      fprintf (stderr, "Alignment request out of range: %s %ld\n",
+      LOG_ERR ( "Alignment request out of range: %s %ld\n",
                name, (long) align);
-      fprintf (stderr, "  should be 0 to %d (limbs), inclusive\n",
+      LOG_ERR ( "  should be 0 to %d (limbs), inclusive\n",
                SPEED_TMP_ALLOC_ADJUST_MASK);
       exit (1);
     }
@@ -1155,7 +1155,7 @@ main (int argc, char *argv[])
         else if (strcmp (optarg, "2fd") == 0)     option_data = DATA_2FD;
         else
           {
-            fprintf (stderr, "unrecognised data option: %s\n", optarg);
+            LOG_ERR ( "unrecognised data option: %s\n", optarg);
             exit (1);
           }
         break;
@@ -1167,7 +1167,7 @@ main (int argc, char *argv[])
         if (option_unit != UNIT_SECONDS)
           {
           bad_unit:
-            fprintf (stderr, "cannot use more than one of -c, -C\n");
+            LOG_ERR ( "cannot use more than one of -c, -C\n");
             exit (1);
           }
         option_unit = UNIT_CYCLES;
@@ -1180,7 +1180,7 @@ main (int argc, char *argv[])
         if (option_cmp != CMP_ABSOLUTE)
           {
           bad_cmp:
-            fprintf (stderr, "cannot use more than one of -d, -D, -r\n");
+            LOG_ERR ( "cannot use more than one of -d, -D, -r\n");
             exit (1);
           }
         option_cmp = CMP_DIFFERENCE;
@@ -1195,7 +1195,7 @@ main (int argc, char *argv[])
         option_factor = atof (optarg);
         if (option_factor <= 1.0)
           {
-            fprintf (stderr, "-f factor must be > 1.0\n");
+            LOG_ERR ( "-f factor must be > 1.0\n");
             exit (1);
           }
         break;
@@ -1243,7 +1243,7 @@ main (int argc, char *argv[])
                   || size_array[size_num].end < 0
                   || size_array[size_num].start > size_array[size_num].end)
                 {
-                  fprintf (stderr, "invalid size parameter: %s\n", s);
+                  LOG_ERR ( "invalid size parameter: %s\n", s);
                   exit (1);
                 }
 
@@ -1255,7 +1255,7 @@ main (int argc, char *argv[])
         option_step = atol (optarg);
         if (option_step < 1)
           {
-            fprintf (stderr, "-t step must be >= 1\n");
+            LOG_ERR ( "-t step must be >= 1\n");
             exit (1);
           }
         break;
@@ -1294,7 +1294,7 @@ main (int argc, char *argv[])
 
   if (size_num == 0)
     {
-      fprintf (stderr, "-s <size> must be specified\n");
+      LOG_ERR ( "-s <size> must be specified\n");
       exit (1);
     }
 
@@ -1315,7 +1315,7 @@ main (int argc, char *argv[])
   if ((option_cmp == CMP_RATIO || option_cmp == CMP_DIFFERENCE) &&
       num_choices < 2)
     {
-      fprintf (stderr, "WARNING, -d or -r does nothing when only one routine requested\n");
+      LOG_ERR ( "WARNING, -d or -r does nothing when only one routine requested\n");
     }
 
   speed_time_init ();

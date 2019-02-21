@@ -66,7 +66,7 @@ __gmp_tmp_debug_mark (const char *file, int line,
   if (strcmp (mark_name, decl_name) != 0)
     {
       __gmp_assert_header (file, line);
-      fprintf (stderr, "GNU MP: TMP_MARK(%s) but TMP_DECL(%s) is in scope\n",
+      LOG_ERR ("GNU MP: TMP_MARK(%s) but TMP_DECL(%s) is in scope\n",
                mark_name, decl_name);
       abort ();
     }
@@ -74,11 +74,11 @@ __gmp_tmp_debug_mark (const char *file, int line,
   if (*markp != NULL)
     {
       __gmp_assert_header (file, line);
-      fprintf (stderr, "GNU MP: Repeat of TMP_MARK(%s)\n", mark_name);
+      LOG_ERR ("GNU MP: Repeat of TMP_MARK(%s)\n", mark_name);
       if (mark->file != NULL && mark->file[0] != '\0' && mark->line != -1)
         {
           __gmp_assert_header (mark->file, mark->line);
-          fprintf (stderr, "previous was here\n");
+          LOG_ERR ("previous was here\n");
         }
       abort ();
     }
@@ -102,7 +102,7 @@ __gmp_tmp_debug_alloc (const char *file, int line, int dummy,
   if (mark == NULL)
     {
       __gmp_assert_header (file, line);
-      fprintf (stderr, "GNU MP: TMP_ALLOC without TMP_MARK(%s)\n", decl_name);
+      LOG_ERR ( "GNU MP: TMP_ALLOC without TMP_MARK(%s)\n", decl_name);
       abort ();
     }
 
@@ -125,7 +125,7 @@ __gmp_tmp_debug_free (const char *file, int line, int dummy,
   if (mark == NULL)
     {
       __gmp_assert_header (file, line);
-      fprintf (stderr, "GNU MP: TMP_FREE(%s) without TMP_MARK(%s)\n",
+      LOG_ERR ( "GNU MP: TMP_FREE(%s) without TMP_MARK(%s)\n",
                free_name, decl_name);
       abort ();
     }
@@ -133,7 +133,7 @@ __gmp_tmp_debug_free (const char *file, int line, int dummy,
   if (strcmp (free_name, decl_name) != 0)
     {
       __gmp_assert_header (file, line);
-      fprintf (stderr, "GNU MP: TMP_FREE(%s) when TMP_DECL(%s) is in scope\n",
+      LOG_ERR ( "GNU MP: TMP_FREE(%s) when TMP_DECL(%s) is in scope\n",
                free_name, decl_name);
       abort ();
     }
