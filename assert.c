@@ -43,9 +43,9 @@ __gmp_assert_header (const char *filename, int linenum)
 {
   if (filename != NULL && filename[0] != '\0')
     {
-      LOG_ERR ( "%s:", filename);
+      LOG_ERR ( "%s\n", filename);
       if (linenum != -1)
-        LOG_ERR ( "%d: ", linenum);
+        LOG_ERR ( "%d\n", linenum);
     }
 }
 
