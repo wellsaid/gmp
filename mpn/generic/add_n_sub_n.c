@@ -153,10 +153,10 @@ main (int argc, char **argv)
 
   n = strtol (argv[1], 0, 0);
 
-  r1p = heapmem_alloc (n * GMP_LIMB_BYTES);
-  r2p = heapmem_alloc (n * GMP_LIMB_BYTES);
-  s1p = heapmem_alloc (n * GMP_LIMB_BYTES);
-  s2p = heapmem_alloc (n * GMP_LIMB_BYTES);
+  r1p = malloc (n * GMP_LIMB_BYTES);
+  r2p = malloc (n * GMP_LIMB_BYTES);
+  s1p = malloc (n * GMP_LIMB_BYTES);
+  s2p = malloc (n * GMP_LIMB_BYTES);
   TIME (t,(mpn_add_n(r1p,s1p,s2p,n),mpn_sub_n(r1p,s1p,s2p,n)));
   printf ("              separate add and sub: %.3f\n", t);
   TIME (t,mpn_add_n_sub_n(r1p,r2p,s1p,s2p,n));

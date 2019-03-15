@@ -34,7 +34,7 @@ see https://www.gnu.org/licenses/.  */
 #include "gmp.h"
 #include "gmp-impl.h"
 
-#include <os/lib/heapmem.h>
+//#include <os/lib/heapmem.h>
 
 void * (*__gmp_allocate_func) (size_t) = __gmp_default_allocate;
 void * (*__gmp_reallocate_func) (void *, size_t, size_t) = __gmp_default_reallocate;
@@ -52,7 +52,7 @@ __gmp_default_allocate (size_t size)
   size_t req_size = size;
   size += 2 * GMP_LIMB_BYTES;
 #endif
-  ret = (void*) heapmem_alloc(size);
+  ret = (void*) malloc(size);
   if (ret == 0)
     {
       LOG_ERR ("GNU MP: Cannot allocate memory (size=%lu)\n", (long) size);
@@ -100,7 +100,7 @@ __gmp_default_reallocate (void *oldptr, size_t old_size, size_t new_size)
   new_size += 2 * GMP_LIMB_BYTES;
 #endif
 
-  ret = heapmem_realloc (oldptr, new_size);
+  ret = realloc (oldptr, new_size);
   if (ret == 0)
     {
 	  LOG_ERR ("GNU MP: Cannot reallocate memory (old_size=%lu new_size=%lu)\n", (long) old_size, (long) new_size);
@@ -143,5 +143,5 @@ __gmp_default_free (void *blk_ptr, size_t blk_size)
     blk_ptr = p - 1;
   }
 #endif
-  heapmem_free (blk_ptr);
+  free (blk_ptr);
 }
